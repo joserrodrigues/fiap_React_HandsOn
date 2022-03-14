@@ -1,19 +1,33 @@
-import { Typography, Box, Button } from '@mui/material';
+import * as React from 'react';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+
 import './Home.css'
+import { Link } from 'react-router-dom';
 
-const HomeView = (props) => {
+export default function HomeView({ info, person }) {
 
-    //Utilizando o props info que recebemos na inicialização do componente
+    let name = "";
+    if (person) {
+        name = person.persons[0].firstName + " " + person.persons[0].lastName
+    }
     return (
-        <Box className="mainContainer">
-            {/* Stack the columns on mobile by making one full-width and the other half-width */}
-            <Typography variant='h1'>
-                Button Clicked = {props.info} - 2
+        <Grid
+            container
+            spacing={0}
+            direction="column"
+            justifyContent="center"
+            alignItems="center">
+            <Typography gutterBottom variant="h1" className="text">
+                Person {name}
             </Typography>
-            <Button onClick={() => props.onClicked('Button Clicked')} variant='primary'>Press Me</Button>{' '}
+            <Typography gutterBottom variant="h1" className="text">
+                Info {info}
+            </Typography>
 
-        </Box>
-    )
+            <Link to="detail/1">Detail 1</Link>
+            <Link to="detail/2">Detail 2</Link>
+
+        </Grid>
+    );
 }
-
-export default HomeView;

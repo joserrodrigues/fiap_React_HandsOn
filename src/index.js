@@ -4,15 +4,16 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import MuiThemes from './Utils/Common/MuiThemes';
 import HomeController from './Screens/Home/HomeController';
-
+import { BrowserRouter } from "react-router-dom";
+import Router from "./Routes/routes";
 
 
 ReactDOM.render(
-  <React.StrictMode>
+  <BrowserRouter>
     <MuiThemes>
-      <HomeController />
+      <Router />
     </MuiThemes>
-  </React.StrictMode>,
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
