@@ -1,65 +1,50 @@
-import { Typography } from '@mui/material';
 import React from 'react';
-import './CustomInput.css';
-import { styled } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import Sizes from '../../Utils/Common/Sizes';
+import { TextField } from '@mui/material';
+import { alpha, styled } from '@mui/material/styles';
 import Colors from '../../Utils/Common/Colors';
 
-const CustomInput = ({ label, errorMessage, defaultValue, placeholder, hasError }) => {
 
-    let colorLabel = "";
-    let hasErrorInfo = false;
-    let borderNormal = '1px solid ' + Colors.NeutralMedium
-    let borderFocused = '2px solid ' + Colors.SecondaryMedium
-    if (hasError) {
-        colorLabel = "error";
-        hasErrorInfo = true;
-        borderNormal = '1px solid ' + Colors.Error
-        borderFocused = '2px solid ' + Colors.Error
+const RedditTextField = styled((props) => (
+    <TextField InputProps={{ disableUnderline: true }} {...props} />
+))(({ theme }) => ({
+    '& .MuiFilledInput-root': {
+        color: Colors.PrimaryMedium,
+        border: '1px solid ' + Colors.PrimaryDark,
+        overflow: 'hidden',
+        borderRadius: 4,
+        backgroundColor: '#f3f3f3',
+        transition: theme.transitions.create([
+            'border-color',
+            'background-color',
+            'box-shadow',
+        ]),
+        '&:hover': {
+            backgroundColor: 'transparent',
+        },
+        '&.Mui-focused': {
+            backgroundColor: 'transparent',
+            boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+            borderColor: Colors.PrimaryDark,
+            color: Colors.PrimaryMedium
+        },
+    },
+    '& .MuiInputLabel-root': {
+        color: Colors.PrimaryMedium,
+        '&.Mui-focused': {
+            color: Colors.PrimaryLight
+        },
     }
+}));
 
-    const BootstrapInput = styled(InputBase)(({ theme }) => ({
-        'label + &': {
-            marginTop: '18px',
-        },
-        '& .MuiInputBase-input': {
-            borderRadius: 4,
-            position: 'relative',
-            backgroundColor: theme.palette.mode === 'light' ? '#fcfcfb' : '#2b2b2b',
-            border: borderNormal,
-            fontSize: Sizes.FontSizeSM,
-            width: 'auto',
-            padding: '10px 12px',
-            transition: theme.transitions.create([
-                'border-color',
-                'background-color',
-                'box-shadow',
-            ]),
-            '&:focus': {
-                border: borderFocused,
-            },
-        },
-    }));
-
+const CustomInput = ({ label, defaultValue, onChange }) => {
     return (
-        <div className='boxCustomInput'>
-            <FormControl variant="standard">
-                <InputLabel color="secondary" shrink htmlFor="bootstrap-input" error={hasError}>
-                    {label}
-                </InputLabel>
-                <BootstrapInput
-                    defaultValue={defaultValue}
-                    error={hasError}
-                    id="bootstrap-input"
-                    size="small"
-                    className="customInput"
-                    placeholder={placeholder} />
-                <Typography variant="minSize" color={colorLabel} className="labelMessageCustomInput">{errorMessage}</Typography>
-            </FormControl>
-        </div>
+        <RedditTextField
+            label={label}
+            defaultValue={defaultValue}
+            variant="filled"
+            style={{ marginTop: 11 }}
+            onChange={onChange}
+        />
     );
 };
 

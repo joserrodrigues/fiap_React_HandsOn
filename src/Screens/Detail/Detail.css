@@ -1,20 +1,13 @@
-.box{
-    margin-top: 150px;
+.box{    
     text-align: center;
-    width: 100%;
 }
 
 .text{
     text-align: center;
     font-size: 28px;
-    color: #ed145b;
 }
-
-.box{
-    text-align: center;
-    align-items: center;
-}
-
-.btnDetail{
-    width: 300px;
+.maps{
+    position: relative;
+    width: 48% !important;
+    height: 100% !important;
 }

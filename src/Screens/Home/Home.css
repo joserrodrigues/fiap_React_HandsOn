@@ -1,4 +1,30 @@
-.mainContainer {
-    margin-top: 130px;
+
+
+.text{
     text-align: center;
+    font-size: 28px;
+
+}
+
+.link{
+  color: aqua;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.MuiPaper-root{
+    width: 90%;
+}
+
+
+.MuiPopover-paper{
+  width: 100px;;
+}
+
+.divTopButton{
+  width: 90%;
+}
+
+.divTopButton .MuiPaper-root{
+  background-color: black !important;
 }

@@ -1,32 +1,59 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useAPI from '../../Services/APIs/Common/useAPI';
 import persons from '../../Services/APIs/Persons/Persons';
 import HomeView from './HomeView';
+import { useNavigate } from 'react-router-dom';
 
-export default function HomeController() {
 
-    const [count, setCount] = useState(0);
-    const getPersonsGetAPI = useAPI(persons.getPersons);
-    const getPersonsPostAPI = useAPI(persons.getPersonsPost);
+const HomeController = () => {
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            //functional update
-            setCount((count) => count + 1);
-        }, 3000);
+    const getPersonsGetAPI = useAPI(persons.getAllPersons);
+    const navigate = useNavigate();
 
-        getPersonsGetAPI.request(1);
-        getPersonsPostAPI.request({
-            title: 'L',
+    const onChangePage = (info) => {
+        navigate("Detail/" + info.id, {
+            state: {
+                info: JSON.stringify(info)
+            }
         });
+    }
 
-        return () => {
-            clearInterval(timer);
-        }
-    }, []);
+    const onAddPage = (info) => {
+        navigate("add/");
+    }
 
-    // console.log(getPersonsGetAPI.data);
-    // console.log(getPersonsPostAPI.data);
+    const getDataPage = (query) => {
+        return new Promise((resolve, reject) => {
+            console.log(query);
 
-    return <HomeView info={count} person={getPersonsGetAPI.data} />
+            let page = query.page + 1
+            let info = `page=${page}&perPage=${query.pageSize}`;
+            if (query.orderBy !== undefined && query.orderBy !== "") {
+                info += `&orderBy=${query.orderBy.field}`
+            }
+            if (query.orderDirection !== undefined && query.orderDirection !== "") {
+                info += `&orderDirection=${query.orderDirection}`
+            }
+            if (query.search !== undefined && query.search !== "") {
+                info += `&search=${query.search}`
+            }
+            getPersonsGetAPI.requestPromise(info)
+                .then(info => {
+                    console.log(info);
+                    resolve({
+                        data: info.persons,
+                        page: info.page - 1,
+                        totalCount: info.totalItems
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        })
+    }
+
+    return <HomeView person={getPersonsGetAPI.data} loading={getPersonsGetAPI.loading} onChangePage={onChangePage}
+        getDataPage={getDataPage} onAddPage={onAddPage} />
 }
+
+export default HomeController;

@@ -1,10 +1,14 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import DetailView from './DetailView';
 
 const DetailController = () => {
 
     const { infoID } = useParams();
+    let { state: { info } } = useLocation();
+
+    console.log(info);
+
     let navigate = useNavigate();
 
     const onBackButton = () => {
@@ -12,7 +16,7 @@ const DetailController = () => {
     }
 
     return (
-        <DetailView infoID={infoID} onBackButton={onBackButton} />
+        <DetailView info={info} onBackButton={onBackButton} />
     );
 };
 
