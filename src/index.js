@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import App from './App';
 import MuiThemes from './Utils/Common/MuiThemes';
+import HomeController from './Screens/Home/HomeController';
 
 
 
 ReactDOM.render(
   <React.StrictMode>
     <MuiThemes>
-      <App />
+      <HomeController />
     </MuiThemes>
   </React.StrictMode>,
   document.getElementById('root')
