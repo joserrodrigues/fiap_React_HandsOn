@@ -3,7 +3,6 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 
 import './Home.css'
-import { Link } from 'react-router-dom';
 
 export default function HomeView({ info, person }) {
 
@@ -24,10 +23,6 @@ export default function HomeView({ info, person }) {
             <Typography gutterBottom variant="h1" className="text">
                 Info {info}
             </Typography>
-
-            <Link to="detail/1">Detail 1</Link>
-            <Link to="detail/2">Detail 2</Link>
-
         </Grid>
     );
 }

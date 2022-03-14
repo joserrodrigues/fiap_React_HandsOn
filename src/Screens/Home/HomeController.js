@@ -1,49 +1,32 @@
-//Importar o useState no componente
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import useAPI from '../../Services/APIs/Common/useAPI';
+import persons from '../../Services/APIs/Persons/Persons';
 import HomeView from './HomeView';
 
-const HomeController = () => {
+export default function HomeController() {
 
-    //Declarando o state information
-    const [information, setInformation] = useState(0);
+    const [count, setCount] = useState(0);
+    const getPersonsGetAPI = useAPI(persons.getPersons);
+    const getPersonsPostAPI = useAPI(persons.getPersonsPost);
 
-    //Esse useEffect é invocado sempre que há uma renderização do componente
     useEffect(() => {
-        console.log("Executa na renderização do componente");
+        const timer = setInterval(() => {
+            //functional update
+            setCount((count) => count + 1);
+        }, 3000);
+
+        getPersonsGetAPI.request(1);
+        getPersonsPostAPI.request({
+            title: 'L',
+        });
+
         return () => {
-            console.log("Executa antes de realizar a renderização");
+            clearInterval(timer);
         }
-    });
-
-    //Esse useEffect é invocado sempre que o componente é montado
-    useEffect(() => {
-        console.log("Executa na montagem do componente");
-        return () => {
-            //Aqui ele é executado na desmontagem do componente
-            console.log("Executa na desmontagem do componente");
-        };
     }, []);
 
-    //Esse useEffect é invocado sempre que o valor do count é alterado
-    useEffect(() => {
-        console.log("Executa na alteração do information");
-        return () => {
-            console.log("Executa antes de executar o render ao alterar o valor do information");
-        }
-    }, [information]);
+    // console.log(getPersonsGetAPI.data);
+    // console.log(getPersonsPostAPI.data);
 
-    //função chamada no View
-    const onClicked = () => {
-        //Alterando a informação do useState
-        console.log(information)
-        setInformation(information + 1);
-    }
-
-    //Passando a variavel information como o props info e a função onClicked
-    return <HomeView
-        info={information}
-        onClicked={onClicked}
-    />;
+    return <HomeView info={count} person={getPersonsGetAPI.data} />
 }
-
-export default HomeController;
